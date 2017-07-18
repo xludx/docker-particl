@@ -1,5 +1,5 @@
-#FROM debian:stretch-slim
-FROM ubuntu:16.10
+FROM debian:stretch-slim
+#FROM ubuntu:16.10
 MAINTAINER Juha Kovanen <juha@particl.io>
 
 ENV PARTICL_VERSION 0.14.1.10
