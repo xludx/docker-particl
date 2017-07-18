@@ -1,0 +1,10 @@
+version: '2'
+stack: rutherford/particl-stack
+services:
+
+  particld:
+    image: ludx/particl:latest
+    stateful: true
+    instances: 1
+    volumes:
+      - /data/particl:/root/.particl
