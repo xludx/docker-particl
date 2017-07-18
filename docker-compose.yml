@@ -1,15 +1,11 @@
 particld:
   build: .
   volumes:
-    - ./data:root/.particl
-#  volumes:
-#  - data:/particl/.particl:rw
-#  ports:
-#  - 51738:51738/tcp
-#  - 51935:51935/tcp
-#  labels:
-#    io.rancher.scheduler.affinity:host_label: run-particl=1
-#    io.rancher.container.pull_image: always
-#  privileged: true
-#  cap_add:
-#  - ALL
+    - ./data:/root/.particl
+  ports:
+  - 61738:51738/tcp
+  - 61935:51935/tcp
+  environment:
+  - CONF_TESTNET=1
+  - CONF_RPCUSERNAME=testnet
+  - CONF_RPCPASSWORD=testnet
