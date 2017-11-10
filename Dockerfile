@@ -2,19 +2,40 @@ FROM debian:stretch-slim
 #FROM ubuntu:16.10
 MAINTAINER Juha Kovanen <juha@particl.io>
 
-ENV PARTICL_VERSION 0.14.1.10
+ARG CONTAINER_TIMEZONE=Europe/Helsinki
+
+ENV PARTICL_VERSION 0.15.0.3
 ENV PARTICL_DATA=/root/.particl
 ENV PATH=/opt/particl-${PARTICL_VERSION}/bin:$PATH
 
 RUN apt-get update -y \
-    && apt-get install -y ca-certificates wget curl gnupg2 autogen git \
+    && apt-get upgrade -y \
+    && apt-get install -y ca-certificates wget curl gnupg2 autogen git net-tools \
     && apt-get install -y build-essential libtool autotools-dev autoconf \
-    && apt-get install -y pkg-config libssl-dev libboost-all-dev \
+    && apt-get install -y pkg-config libssl-dev libboost-all-dev ntp ntpdate \
     && apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools \
     && apt-get install -y libprotobuf-dev protobuf-compiler libqrencode-dev autoconf \
     && apt-get install -y openssl libssl-dev libevent-dev libminiupnpc-dev bsdmainutils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# RUN echo "deb http://deb.torproject.org/torproject.org stretch main" >> /etc/apt/sources.list
+# RUN echo "deb-src http://deb.torproject.org/torproject.org stretch main" >> /etc/apt/sources.list
+# RUN gpg --keyserver keys.gnupg.net --recv-keys 886DDD89
+# RUN gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
+
+# RUN apt-get update -y \
+#    && apt-get install -y tor deb.torproject.org-keyring proxychains \
+#    && apt-get clean \
+#    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# RUN usermod -a -G debian-tor root
+
+RUN echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
+    ln -sf /usr/share/zoneinfo/${CONTAINER_TIMEZONE} /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    echo "Container timezone set to: $CONTAINER_TIMEZONE"
+
+RUN ntpdate -q ntp.ubuntu.com
 
 RUN cd /root \
     && git clone https://github.com/particl/particl-core.git
@@ -33,6 +54,7 @@ RUN cd /root/particl-core \
 
 RUN mkdir /root/.particl
 VOLUME ["/root/.particl"]
+# VOLUME ["/var/lib/tor"]
 
 RUN mkdir -p /opt/particl-${PARTICL_VERSION}/bin \
     && cp -rf /root/particl-core/src/particl-cli /root/particl-core/src/particl-tx /root/particl-core/src/particld /opt/particl-${PARTICL_VERSION}/bin/
@@ -41,6 +63,7 @@ COPY docker-entrypoint.sh /opt/particl-${PARTICL_VERSION}/bin/entrypoint.sh
 
 ENV PATH="/opt/particl-${PARTICL_VERSION}/bin:${PATH}"
 RUN chmod +x /opt/particl-${PARTICL_VERSION}/bin/*
+# RUN /etc/init.d/tor stop
 
 EXPOSE 51738 51935
 

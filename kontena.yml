@@ -1,10 +1,67 @@
 version: '2'
 stack: rutherford/particl-stack
+
+variables:
+  chain:
+    type: enum
+    default: mainnet
+    options:
+      - value: 51738
+        label: mainnet
+        description: use mainnet
+      - value: 51935
+        label: testnet
+        description: use testnet
+    from:
+      env: CONF_CHAIN
+      prompt: Select Chain
+    to:
+      env: service_port
+
 services:
 
   particld:
-    image: ludx/particl:latest
+    image: docker.io/ludx/particl:latest
     stateful: true
     instances: 1
     volumes:
       - /data/particl:/root/.particl
+      - /data/particl-tor:/var/lib/tor
+    ports:
+      - ${service_port}:${service_port}/tcp
+    environment:
+      - CONF_CLEAN_INIT=true
+      - CONF_RPCUSERNAME=testnet        # Username for JSON-RPC connections, generated unless set
+      - CONF_RPCPASSWORD=testnet        # Password for JSON-RPC connections, generated unless set
+      - CONF_PRINTTOCONSOLE=1           # Send trace/debug info to console instead of debug.log file
+#      - CONF_ONLYNET=onion              # Only connect to nodes in network: ipv4, ipv6 or onion
+#      - CONF_PROXY=127.0.0.1:9050       # Connect through SOCKS5 proxy
+#      - CONF_ONION=127.0.0.1:9050       # Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: -proxy)
+      - CONF_SERVER=1                   # Accept command line and JSON-RPC commands
+#      - CONF_RPCALLOWIP=0.0.0.0/0       # Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24).
+      - CONF_RPCALLOWIP=127.0.0.1       # Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24).
+      - CONF_REST=0                    # Accept public REST requests (default: 0)
+      - CONF_LISTEN=1                   # Accept connections from outside (default: 1 if no -proxy or -connect)
+#      - CONF_LISTENONION=1              # Automatically create Tor hidden service (default: 1)
+#      - CONF_TORCONTROL=127.0.0.1:9051  # Tor control port to use if onion listening enabled (default: 127.0.0.1:9051)
+#      - CONF_TORPASSWORD=particltor     # Tor control port password, generated unless set
+#      - CONF_DISCOVER=1                # Discover own IP address (default: 1 when listening and no -externalip)
+#      - CONF_BIND=127.0.0.1             # Bind to given address and always listen on it. Use [host]:port notation for IPv6
+#      - CONF_DEBUG=tor                    # Output debugging information: 0/1, addrman, alert, bench, cmpctblock, coindb, db, http, libevent, lock, mempool, mempoolrej, net, proxy, prune, rand, reindex, rpc, selectcoins, tor, zmq, qt.
+      - CONF_BIND=127.0.0.1
+
+
+
+#    health_check:
+#      protocol: tcp
+#      port: 27017
+#      initial_delay: 60
+#      timeout: 2
+
+#    links:
+#      - loadbalancerstack/internet_lb
+#    environment:
+#      - KONTENA_LB_MODE=tcp
+#      - KONTENA_LB_BALANCE=roundrobin
+#      - KONTENA_LB_INTERNAL_PORT=1234
+#      - KONTENA_LB_VIRTUAL_HOSTS=particl.rutherford.xyz

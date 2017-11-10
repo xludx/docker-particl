@@ -43,4 +43,5 @@ Attach bash into running container to debug running particld
 
 ```sh
 docker exec -it particld bash -l
+kontena container exec kontena-agent1/particl-stack.particld-1 bash -l
 ```
