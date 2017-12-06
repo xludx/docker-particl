@@ -1,27 +1,28 @@
-version: '2'
+---
 stack: rutherford/particl-stack
+version: 0.15.1.0
 
-variables:
-  chain:
-    type: enum
-    default: mainnet
-    options:
-      - value: 51738
-        label: mainnet
-        description: use mainnet
-      - value: 51935
-        label: testnet
-        description: use testnet
-    from:
-      env: CONF_CHAIN
-      prompt: Select Chain
-    to:
-      env: service_port
+#variables:
+#  chain:
+#    type: enum
+#    default: mainnet
+#    options:
+#      - value: 51738
+#        label: mainnet
+#        description: use mainnet
+#      - value: 51935
+#        label: testnet
+#        description: use testnet
+#    from:
+#      env: CONF_CHAIN
+#      prompt: Select Chain
+#    to:
+#      env: service_port
 
 services:
 
   particld:
-    image: docker.io/ludx/particl:latest
+    image: docker.io/ludx/particl:0.15.1.0
     stateful: true
     instances: 1
     volumes:
