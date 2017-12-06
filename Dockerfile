@@ -4,7 +4,7 @@ MAINTAINER Juha Kovanen <juha@particl.io>
 
 ARG CONTAINER_TIMEZONE=Europe/Helsinki
 
-ENV PARTICL_VERSION 0.15.0.3
+ENV PARTICL_VERSION 0.15.1.0
 ENV PARTICL_DATA=/root/.particl
 ENV PATH=/opt/particl-${PARTICL_VERSION}/bin:$PATH
 
