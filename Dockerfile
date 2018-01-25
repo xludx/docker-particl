@@ -4,20 +4,21 @@ MAINTAINER Juha Kovanen <juha@particl.io>
 
 ARG CONTAINER_TIMEZONE=Europe/Helsinki
 
-ENV PARTICL_VERSION 0.15.1.0
+ENV PARTICL_VERSION 0.15.1.2
 ENV PARTICL_DATA=/root/.particl
 ENV PATH=/opt/particl-${PARTICL_VERSION}/bin:$PATH
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y ca-certificates wget curl gnupg2 autogen git net-tools \
-    && apt-get install -y build-essential libtool autotools-dev autoconf \
+    && apt-get install -y build-essential libtool autotools-dev automake autoconf \
     && apt-get install -y pkg-config libssl-dev libboost-all-dev ntp ntpdate \
     && apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools \
     && apt-get install -y libprotobuf-dev protobuf-compiler libqrencode-dev autoconf \
-    && apt-get install -y openssl libssl-dev libevent-dev libminiupnpc-dev bsdmainutils \
+    && apt-get install -y openssl libevent-dev libminiupnpc-dev bsdmainutils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 # RUN echo "deb http://deb.torproject.org/torproject.org stretch main" >> /etc/apt/sources.list
 # RUN echo "deb-src http://deb.torproject.org/torproject.org stretch main" >> /etc/apt/sources.list

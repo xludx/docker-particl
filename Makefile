@@ -1,5 +1,5 @@
 build:
-	time docker build --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl -t docker.io/ludx/particl:0.15.1.0 -t docker.io/ludx/particl:latest .
+	time docker build --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl -t docker.io/ludx/particl:0.15.1.2 -t docker.io/ludx/particl:latest .
 
 run:
 	docker run --name particld -e CONF_RPCUSERNAME=testnet -e CONF_RPCPASSWORD=testnet \
@@ -18,7 +18,7 @@ run:
 #      - CONF_DISCOVER=1                # Discover own IP address (default: 1 when listening and no -externalip)
 #      - CONF_BIND=127.0.0.1             # Bind to given address and always listen on it. Use [host]:port notation for IPv6
 #      - CONF_DEBUG=tor                    # Output debugging information: 0/1, addrman, alert, bench, cmpctblock, coindb, db, http, libevent, lock, mempool, mempoolrej, net, proxy, prune, rand, reindex, rpc, selectcoins, tor, zmq, qt.
-# /Users/juha/Work/particl/docker-particl/data/particl
+#      - CREATEDEFAULTMASTERKEY=true
 
 start:
 	docker start particld
@@ -34,3 +34,4 @@ logs:
 
 push:
 	docker push docker.io/ludx/particl:latest
+	docker push docker.io/ludx/particl:0.15.1.2
