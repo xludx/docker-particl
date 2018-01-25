@@ -4,18 +4,18 @@ MAINTAINER Juha Kovanen <juha@particl.io>
 
 ARG CONTAINER_TIMEZONE=Europe/Helsinki
 
-ENV PARTICL_VERSION 0.15.1.2
+ENV PARTICL_VERSION 0.15.1.1
 ENV PARTICL_DATA=/root/.particl
 ENV PATH=/opt/particl-${PARTICL_VERSION}/bin:$PATH
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y ca-certificates wget curl gnupg2 autogen git net-tools \
+    && apt-get install -y apt-transport-https ca-certificates wget curl gnupg2 autogen git net-tools \
     && apt-get install -y build-essential libtool autotools-dev automake autoconf \
-    && apt-get install -y pkg-config libssl-dev libboost-all-dev ntp ntpdate \
+    && apt-get install -y pkg-config libssl-dev libboost-all-dev ntp ntpdate libzmq3-dev \
     && apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools \
     && apt-get install -y libprotobuf-dev protobuf-compiler libqrencode-dev autoconf \
-    && apt-get install -y openssl libevent-dev libminiupnpc-dev bsdmainutils \
+    && apt-get install -y openssl libevent-dev libminiupnpc-dev bsdmainutils libsodium-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -39,7 +39,9 @@ RUN echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
 RUN ntpdate -q ntp.ubuntu.com
 
 RUN cd /root \
-    && git clone https://github.com/particl/particl-core.git
+    && git clone https://github.com/particl/particl-core.git \
+    && cd particl-core \
+    && git checkout v${PARTICL_VERSION}
 RUN cd /root/particl-core \
     && mkdir db4 \
     && cd db4 \
@@ -51,7 +53,7 @@ RUN cd /root/particl-core \
 RUN cd /root/particl-core \
     && ./autogen.sh \
     && ./configure LDFLAGS="-L/root/particl-core/db4/lib/" CPPFLAGS="-I/root/particl-core/db4/include/" \
-    && make -s -j4
+    && make
 
 RUN mkdir /root/.particl
 VOLUME ["/root/.particl"]
