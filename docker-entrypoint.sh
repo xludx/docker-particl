@@ -145,16 +145,18 @@ else
     echo "${PARTICL_CONF} allready generated..."
 fi
 
-if [[ ! -z "${CREATEDEFAULTMASTERKEY}" ]]; then
-    CREATEDEFAULTMASTERKEY="-createdefaultmasterkey"
-fi
-
 echo
 echo "particl.conf:"
 echo
 more $PARTICL_CONF
 
 if [[ "$1" = "particld" ]]; then
-    set -- "$@" -datadir="${PARTICL_DATA}" -conf="${PARTICL_CONF}" "${CREATEDEFAULTMASTERKEY}"
-    exec "$@"
+    if [[ "${CREATEDEFAULTMASTERKEY}" = true ]]; then
+        set -- "$@" -datadir="${PARTICL_DATA}" -conf="${PARTICL_CONF}" -createdefaultmasterkey
+        exec "$@"
+    else
+        set -- "$@" -datadir="${PARTICL_DATA}" -conf="${PARTICL_CONF}"
+        exec "$@"
+    fi
+
 fi
