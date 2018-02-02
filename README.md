@@ -1,5 +1,7 @@
 # ludx/particl
 
+[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=xludx&repoName=docker-particl&branch=master&pipelineName=docker-particl&accountName=ludx&type=cf-2)]( https://g.codefresh.io/repositories/xludx/docker-particl/builds?filter=trigger:build;branch:master;service:5a6b8b39c09dc20001b38b78~docker-particl)
+
 A Particl docker image.
 
 ## Usage
