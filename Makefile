@@ -1,5 +1,5 @@
 build:
-	time docker build --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl -t docker.io/ludx/particl:0.15.1.2 -t docker.io/ludx/particl:latest .
+	time docker build --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl -t docker.io/ludx/particl:0.16.0.1rc1 -t docker.io/ludx/particl:latest .
 
 run:
 	docker run --name particld -e CONF_RPCUSERNAME=testnet -e CONF_RPCPASSWORD=testnet \
@@ -34,4 +34,4 @@ logs:
 
 push:
 	docker push docker.io/ludx/particl:latest
-	docker push docker.io/ludx/particl:0.15.1.2
+	docker push docker.io/ludx/particl:0.16.0.1rc1
