@@ -45,3 +45,6 @@ push:
 
 push-master:
 	docker push docker.io/ludx/particl:master
+
+push-016:
+	docker push docker.io/ludx/particl:0.16
