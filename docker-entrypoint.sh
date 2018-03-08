@@ -77,6 +77,13 @@ then
     RPCPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     echo "rpcuser=${CONF_RPCUSERNAME:-$RPCUSERNAME}" >> ${PARTICL_CONF}
     echo "rpcpassword=${CONF_RPCPASSWORD:-$RPCPASSWORD}" >> ${PARTICL_CONF}
+
+    if [[ ! -z "${CONF_RPCPORT}" ]]; then
+        echo "rpcport=${CONF_RPCPORT}" >> ${PARTICL_CONF}
+    else
+        echo "rpcport=51935" >> ${PARTICL_CONF}
+    fi
+
     echo "printtoconsole=${CONF_PRINTTOCONSOLE:-1}" >> ${PARTICL_CONF}
 
     if [[ ! -z "${CONF_TESTNET}" ]]; then

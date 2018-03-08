@@ -3,10 +3,12 @@ FROM debian:stretch-slim
 MAINTAINER Juha Kovanen <juha@particl.io>
 
 ARG CONTAINER_TIMEZONE=Europe/Helsinki
+ARG PARTICL_VERSION=master
 
-ENV PARTICL_VERSION 0.16.0.1rc1
 ENV PARTICL_DATA=/root/.particl
 ENV PATH=/opt/particl-${PARTICL_VERSION}/bin:$PATH
+
+RUN echo "Building $PARTICL_VERSION"
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
@@ -18,7 +20,6 @@ RUN apt-get update -y \
     && apt-get install -y openssl libevent-dev libminiupnpc-dev bsdmainutils libsodium-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 
 # RUN echo "deb http://deb.torproject.org/torproject.org stretch main" >> /etc/apt/sources.list
 # RUN echo "deb-src http://deb.torproject.org/torproject.org stretch main" >> /etc/apt/sources.list
@@ -38,10 +39,27 @@ RUN echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
 
 RUN ntpdate -q ntp.ubuntu.com
 
-RUN cd /root \
-    && git clone https://github.com/particl/particl-core.git \
-    && cd particl-core \
-    && git checkout v${PARTICL_VERSION}
+RUN if [ "$PARTICL_VERSION" = "master" ]; then \
+        cd /root \
+        && git clone https://github.com/particl/particl-core.git \
+        && cd particl-core; \
+    elif [ "$PARTICL_VERSION" = "0.16" ]; then \
+                 cd /root \
+                 && git clone https://github.com/particl/particl-core.git \
+                 && cd particl-core \
+                 && git checkout ${PARTICL_VERSION}; \
+    else \
+        cd /root \
+        && git clone https://github.com/particl/particl-core.git \
+        && cd particl-core \
+        && git checkout v${PARTICL_VERSION}; \
+    fi
+
+# RUN cd /root \
+#    && git clone https://github.com/particl/particl-core.git \
+#    && cd particl-core \
+#    && git checkout v${PARTICL_VERSION}
+
 RUN cd /root/particl-core \
     && mkdir db4 \
     && cd db4 \

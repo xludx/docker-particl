@@ -1,9 +1,16 @@
 build:
-	time docker build --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl -t docker.io/ludx/particl:0.16.0.1rc1 -t docker.io/ludx/particl:latest .
+	time docker build --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t docker.io/ludx/particl:latest -t docker.io/ludx/particl:latest .
+
+build-master:
+	time docker build --build-arg PARTICL_VERSION=master --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:master -t docker.io/ludx/particl:master .
+
+build-016:
+	time docker build --build-arg PARTICL_VERSION=0.16 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.16 -t docker.io/ludx/particl:0.16 .
 
 run:
 	docker run --name particld -e CONF_RPCUSERNAME=testnet -e CONF_RPCPASSWORD=testnet \
 	-e CONF_BIND=127.0.0.1 -e CONF_PRINTTOCONSOLE=1 -e CONF_SERVER=1 -e CONF_LISTEN=0 -p 61738:51738 -p 61935:51935 \
+	-e CREATEDEFAULTMASTERKEY=true \
 	-v /Users/juha/Work/particl/docker-particl/data/particl:/root/.particl -v /Users/juha/Work/particl/docker-particl/data/particl-tor:/var/lib/tor docker.io/ludx/particl:latest
 
 #      - CONF_ONLYNET=onion              # Only connect to nodes in network: ipv4, ipv6 or onion
@@ -35,3 +42,6 @@ logs:
 push:
 	docker push docker.io/ludx/particl:latest
 	docker push docker.io/ludx/particl:0.16.0.1rc1
+
+push-master:
+	docker push docker.io/ludx/particl:master
