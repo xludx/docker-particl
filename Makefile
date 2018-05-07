@@ -5,7 +5,7 @@ build-master:
 	time docker build --build-arg PARTICL_VERSION=master --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:master -t docker.io/ludx/particl:master .
 
 build-016:
-	time docker build --no-cache --build-arg PARTICL_VERSION=0.16 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.16 -t docker.io/ludx/particl:0.16 .
+	time docker build --no-cache --build-arg PARTICL_VERSION=0.16.0.4 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.16.0.4 -t docker.io/ludx/particl:0.16.0.4 -t docker.io/ludx/particl:latest .
 
 run:
 	docker run --name particld -e CONF_RPCUSERNAME=testnet -e CONF_RPCPASSWORD=testnet \
@@ -41,10 +41,11 @@ logs:
 
 push:
 	docker push docker.io/ludx/particl:latest
-	docker push docker.io/ludx/particl:0.16.0.1rc1
+	docker push docker.io/ludx/particl:0.16.0.4
+	docker push docker.io/ludx/particl:0.16
 
 push-master:
 	docker push docker.io/ludx/particl:master
 
-push-016:
-	docker push docker.io/ludx/particl:0.16
+#push-016:
+#	docker push docker.io/ludx/particl:0.16.0.4

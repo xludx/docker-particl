@@ -43,16 +43,17 @@ RUN if [ "$PARTICL_VERSION" = "master" ]; then \
         cd /root \
         && git clone https://github.com/particl/particl-core.git \
         && cd particl-core; \
-    elif [ "$PARTICL_VERSION" = "0.16" ]; then \
-                 cd /root \
-                 && git clone https://github.com/particl/particl-core.git \
-                 && cd particl-core \
-                 && git checkout ${PARTICL_VERSION}; \
+#    elif [ "$PARTICL_VERSION" = "0.16" ]; then \
+#                 cd /root \
+#                 && git clone https://github.com/particl/particl-core.git \
+#                 && cd particl-core \
+#                 && git checkout ${PARTICL_VERSION}; \
     else \
         cd /root \
         && git clone https://github.com/particl/particl-core.git \
         && cd particl-core \
-        && git checkout v${PARTICL_VERSION}; \
+        && git fetch --all --tags --prune \
+        && git checkout tags/v${PARTICL_VERSION} -b v${PARTICL_VERSION}; \
     fi
 
 # RUN cd /root \
