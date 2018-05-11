@@ -78,13 +78,13 @@ RUN mkdir /root/.particl
 VOLUME ["/root/.particl"]
 # VOLUME ["/var/lib/tor"]
 
-RUN mkdir -p /opt/particl-${PARTICL_VERSION}/bin \
-    && cp -rf /root/particl-core/src/particl-cli /root/particl-core/src/particl-tx /root/particl-core/src/particld /opt/particl-${PARTICL_VERSION}/bin/
+RUN mkdir -p /opt/particl/bin \
+    && cp -rf /root/particl-core/src/particl-cli /root/particl-core/src/particl-tx /root/particl-core/src/particld /opt/particl/bin/
 
-COPY docker-entrypoint.sh /opt/particl-${PARTICL_VERSION}/bin/entrypoint.sh
+COPY docker-entrypoint.sh /opt/particl/bin/entrypoint.sh
 
-ENV PATH="/opt/particl-${PARTICL_VERSION}/bin:${PATH}"
-RUN chmod +x /opt/particl-${PARTICL_VERSION}/bin/*
+ENV PATH="/opt/particl/bin:${PATH}"
+RUN chmod +x /opt/particl/bin/*
 # RUN /etc/init.d/tor stop
 
 EXPOSE 51738 51935
