@@ -1,6 +1,6 @@
 ---
 stack: rutherford/particl-stack
-version: 0.16.0.5
+version: 0.16.0.7
 
 #variables:
 #  chain:
@@ -22,7 +22,7 @@ version: 0.16.0.5
 services:
 
   particld:
-    image: docker.io/ludx/particl:0.16.0.5
+    image: docker.io/ludx/particl:latest
     stateful: true
     instances: 1
     volumes:
