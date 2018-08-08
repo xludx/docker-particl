@@ -16,3 +16,4 @@ log/
 target/
 
 data
+yarn-error.log
