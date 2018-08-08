@@ -73,6 +73,8 @@ then
     # TORHOSTNAME=$(cat $HOSTNAME)
     # echo "...onion address is ${TORHOSTNAME}"
 
+# TODO: add rpcauth
+
     RPCUSERNAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     RPCPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     echo "rpcuser=${CONF_RPCUSERNAME:-$RPCUSERNAME}" >> ${PARTICL_CONF}
