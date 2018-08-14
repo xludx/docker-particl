@@ -44,11 +44,11 @@ logs:
 
 push:
 	docker push docker.io/ludx/particl:latest
-	docker push docker.io/ludx/particl:0.16.0.7
+	docker push docker.io/ludx/particl:0.16.2.0
 	docker push docker.io/ludx/particl:0.16
 
 push-master:
 	docker push docker.io/ludx/particl:master
 
-#push-016:
-#	docker push docker.io/ludx/particl:0.16.0.5
+push-017:
+	docker push docker.io/ludx/particl:0.17.0.2alpha
