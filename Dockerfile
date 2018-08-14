@@ -12,7 +12,7 @@ RUN echo "Building $PARTICL_VERSION"
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y apt-transport-https ca-certificates wget curl gnupg2 autogen git net-tools \
+    && apt-get install -y apt-transport-https ca-certificates wget curl gnupg2 autogen git net-tools iputils-ping \
     && apt-get install -y build-essential libtool autotools-dev automake autoconf \
     && apt-get install -y pkg-config libssl-dev libboost-all-dev ntp ntpdate libzmq3-dev \
     && apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools \
