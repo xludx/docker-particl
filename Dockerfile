@@ -13,11 +13,9 @@ RUN echo "Building $PARTICL_VERSION"
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y apt-transport-https ca-certificates wget curl gnupg2 autogen git net-tools iputils-ping \
-    && apt-get install -y build-essential libtool autotools-dev automake autoconf \
-    && apt-get install -y pkg-config libssl-dev libboost-all-dev ntp ntpdate libzmq3-dev \
-    && apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools \
-    && apt-get install -y libprotobuf-dev protobuf-compiler libqrencode-dev autoconf \
-    && apt-get install -y openssl libevent-dev libminiupnpc-dev bsdmainutils libsodium-dev \
+    build-essential libtool autotools-dev automake autoconf pkg-config libssl-dev libboost-all-dev ntp ntpdate \
+    libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler \
+    libqrencode-dev autoconf openssl libevent-dev libminiupnpc-dev bsdmainutils libsodium-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -43,11 +41,6 @@ RUN if [ "$PARTICL_VERSION" = "master" ]; then \
         cd /root \
         && git clone https://github.com/particl/particl-core.git \
         && cd particl-core; \
-#    elif [ "$PARTICL_VERSION" = "0.16" ]; then \
-#                 cd /root \
-#                 && git clone https://github.com/particl/particl-core.git \
-#                 && cd particl-core \
-#                 && git checkout ${PARTICL_VERSION}; \
     else \
         cd /root \
         && git clone https://github.com/particl/particl-core.git \
@@ -79,7 +72,8 @@ VOLUME ["/root/.particl"]
 # VOLUME ["/var/lib/tor"]
 
 RUN mkdir -p /opt/particl/bin \
-    && cp -rf /root/particl-core/src/particl-cli /root/particl-core/src/particl-tx /root/particl-core/src/particld /opt/particl/bin/
+    && cp -rf /root/particl-core/src/particl-cli /root/particl-core/src/particl-tx /root/particl-core/src/particld /opt/particl/bin/ \
+    && rm -rf /root/particl-core
 
 COPY docker-entrypoint.sh /opt/particl/bin/entrypoint.sh
 
