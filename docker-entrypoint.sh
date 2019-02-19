@@ -74,6 +74,8 @@ then
     # echo "...onion address is ${TORHOSTNAME}"
 
 # TODO: add rpcauth
+# TODO: add rpcbind
+# TODO: this needs to be redone
 
     RPCUSERNAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     RPCPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
@@ -158,6 +160,10 @@ echo
 echo "particl.conf:"
 echo
 more $PARTICL_CONF
+echo
+echo rpcauth.py:
+rpcauth.py test test
+echo
 
 if [[ "$1" = "particld" ]]; then
     if [[ "${CREATEDEFAULTMASTERKEY}" = true ]]; then

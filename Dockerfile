@@ -8,8 +8,6 @@ ARG PARTICL_VERSION=master
 ENV PARTICL_DATA=/root/.particl
 ENV PATH=/opt/particl-${PARTICL_VERSION}/bin:$PATH
 
-RUN echo "Building $PARTICL_VERSION"
-
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y apt-transport-https ca-certificates wget curl gnupg2 autogen git net-tools iputils-ping \
@@ -37,35 +35,21 @@ RUN echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
 
 RUN ntpdate -q ntp.ubuntu.com
 
-RUN if [ "$PARTICL_VERSION" = "master" ]; then \
-        cd /root \
-        && git clone https://github.com/particl/particl-core.git \
-        && cd particl-core; \
-    else \
+RUN if [ "${PARTICL_VERSION}" = "master" ]; then \
         cd /root \
         && git clone https://github.com/particl/particl-core.git \
         && cd particl-core \
         && git fetch --all --tags --prune \
         && git checkout tags/v${PARTICL_VERSION} -b v${PARTICL_VERSION}; \
+    else \
+        cd /root \
+        && mkdir -p particl-core/src \
+        && cd particl-core \
+        && wget https://github.com/particl/particl-core/releases/download/v${PARTICL_VERSION}/particl-${PARTICL_VERSION%alpha}-x86_64-linux-gnu.tar.gz \
+        && tar -xzvf particl-${PARTICL_VERSION%alpha}-x86_64-linux-gnu.tar.gz \
+        && cp -rf particl-${PARTICL_VERSION%alpha}/bin/* src/; \
     fi
 
-# RUN cd /root \
-#    && git clone https://github.com/particl/particl-core.git \
-#    && cd particl-core \
-#    && git checkout v${PARTICL_VERSION}
-
-RUN cd /root/particl-core \
-    && mkdir db4 \
-    && cd db4 \
-    && wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz' \
-    && tar -xzvf db-4.8.30.NC.tar.gz \
-    && cd db-4.8.30.NC/build_unix \
-    && ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=/root/particl-core/db4/ \
-    && make install
-RUN cd /root/particl-core \
-    && ./autogen.sh \
-    && ./configure LDFLAGS="-L/root/particl-core/db4/lib/" CPPFLAGS="-I/root/particl-core/db4/include/" \
-    && make
 
 RUN mkdir /root/.particl
 VOLUME ["/root/.particl"]
@@ -76,6 +60,7 @@ RUN mkdir -p /opt/particl/bin \
     && rm -rf /root/particl-core
 
 COPY docker-entrypoint.sh /opt/particl/bin/entrypoint.sh
+COPY bin/rpcauth.py /opt/particl/bin/rpcauth.py
 
 ENV PATH="/opt/particl/bin:${PATH}"
 RUN chmod +x /opt/particl/bin/*
