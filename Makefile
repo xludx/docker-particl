@@ -55,5 +55,5 @@ push-017:
 	docker push docker.io/ludx/particl:0.17
 
 push-018:
-	docker push docker.io/ludx/particl:0.18.0.3alpha
+	docker push docker.io/ludx/particl:0.18.0.4alpha
 	docker push docker.io/ludx/particl:0.18
