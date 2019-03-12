@@ -58,9 +58,13 @@ RUN if [ "${BUILD}" = "true" ]; then \
         cd /root \
         && mkdir -p particl-core/src \
         && cd particl-core \
-        && wget https://github.com/particl/particl-core/releases/download/v${PARTICL_VERSION}/particl-${PARTICL_VERSION%alpha}-x86_64-linux-gnu.tar.gz \
-        && tar -xzvf particl-${PARTICL_VERSION%alpha}-x86_64-linux-gnu.tar.gz \
-        && cp -rf particl-${PARTICL_VERSION%alpha}/bin/* src/; \
+        # && wget https://github.com/particl/particl-core/releases/download/v${PARTICL_VERSION}/particl-${PARTICL_VERSION%alpha}-x86_64-linux-gnu.tar.gz \
+        # && tar -xzvf particl-${PARTICL_VERSION%alpha}-x86_64-linux-gnu.tar.gz \
+        # && cp -rf particl-${PARTICL_VERSION%alpha}/bin/* src/; \
+        # https://github.com/particl/particl-core/releases/download/v0.18.0.5rc1/particl-0.18.0.5-x86_64-linux-gnu.tar.gz
+        && wget https://github.com/particl/particl-core/releases/download/v${PARTICL_VERSION}/particl-${PARTICL_VERSION%rc1}-x86_64-linux-gnu.tar.gz \
+        && tar -xzvf particl-${PARTICL_VERSION%rc1}-x86_64-linux-gnu.tar.gz \
+        && cp -rf particl-${PARTICL_VERSION%rc1}/bin/* src/; \
     fi
 
 
