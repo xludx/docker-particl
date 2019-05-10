@@ -86,7 +86,7 @@ RUN chmod +x /opt/particl/bin/*
 EXPOSE 51738 51935
 
 HEALTHCHECK --interval=5m --timeout=3s --retries=3 \
-    CMD particl-cli getinfo || exit 1
+    CMD particl-cli getnetworkinfo || exit 1
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["particld"]
