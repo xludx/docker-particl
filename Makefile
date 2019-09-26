@@ -1,5 +1,5 @@
 build:
-	time docker build --build-arg PARTICL_VERSION=master --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:master -t docker.io/ludx/particl:master .
+	time docker build --no-cache --build-arg PARTICL_VERSION=master --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:master -t docker.io/ludx/particl:master .
 
 build-016:
 	time docker build --no-cache --build-arg PARTICL_VERSION=0.16.2.0 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.16.2.0 -t docker.io/ludx/particl:0.16.2.0 .
@@ -8,7 +8,7 @@ build-017:
 	time docker build --no-cache --build-arg PARTICL_VERSION=0.17.1.0 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.17 -t ludx/particl:0.17.1.0 -t docker.io/ludx/particl:0.17.1.0 -t docker.io/ludx/particl:latest .
 
 build-018:
-	time docker build --no-cache --build-arg BUILD=false --build-arg PARTICL_VERSION=0.18.1.3 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.18 -t ludx/particl:0.18.1.3 -t docker.io/ludx/particl:0.18.1.3 -t docker.io/ludx/particl:latest .
+	time docker build --no-cache --build-arg BUILD=false --build-arg PARTICL_VERSION=0.18.1.5 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.18 -t ludx/particl:0.18.1.5 -t docker.io/ludx/particl:0.18.1.5 -t docker.io/ludx/particl:latest .
 
 run:
 	docker run --name particld -e CONF_RPCUSERNAME=testnet -e CONF_RPCPASSWORD=testnet \
@@ -55,5 +55,5 @@ push-017:
 	docker push docker.io/ludx/particl:0.17
 
 push-018:
-	docker push docker.io/ludx/particl:0.18.1.3
+	docker push docker.io/ludx/particl:0.18.1.5
 	docker push docker.io/ludx/particl:0.18

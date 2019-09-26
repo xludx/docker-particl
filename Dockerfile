@@ -36,7 +36,23 @@ RUN echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
 
 RUN ntpdate -q ntp.ubuntu.com
 
-RUN if [ "${BUILD}" = "true" ]; then \
+RUN if [ "${PARTICL_VERSION}" = "master" ]; then \
+        cd /root \
+        && git clone https://github.com/particl/particl-core.git \
+        && cd particl-core \
+        && cd /root/particl-core \
+        && mkdir db4 \
+        && cd /root/particl-core/db4 \
+        && wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz' \
+        && tar -xzvf db-4.8.30.NC.tar.gz \
+        && cd /root/particl-core/db4/db-4.8.30.NC/build_unix \
+        && ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=/root/particl-core/db4/ \
+        && make install \
+        && cd /root/particl-core \
+        && ./autogen.sh \
+        && ./configure LDFLAGS="-L/root/particl-core/db4/lib/" CPPFLAGS="-I/root/particl-core/db4/include/" \
+        && make; \
+    elif [ "${BUILD}" = "true" ]; then \
         cd /root \
         && git clone https://github.com/particl/particl-core.git \
         && cd particl-core \
