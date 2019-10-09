@@ -10,6 +10,9 @@ build-017:
 build-018:
 	time docker build --no-cache --build-arg BUILD=false --build-arg PARTICL_VERSION=0.18.1.5 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.18 -t ludx/particl:0.18.1.5 -t docker.io/ludx/particl:0.18.1.5 -t docker.io/ludx/particl:latest .
 
+build-019:
+	time docker build --no-cache --build-arg BUILD=false --build-arg PARTICL_VERSION=0.19.0.1rc1 --build-arg CONTAINER_TIMEZONE=Europe/Helsinki -t ludx/particl:0.19 -t ludx/particl:0.19.0.1rc1 -t docker.io/ludx/particl:0.19.0.1rc1 -t docker.io/ludx/particl:latest .
+
 run:
 	docker run --name particld -e CONF_RPCUSERNAME=testnet -e CONF_RPCPASSWORD=testnet \
 	-e CONF_BIND=127.0.0.1 -e CONF_PRINTTOCONSOLE=1 -e CONF_SERVER=1 -e CONF_LISTEN=0 -p 61738:51738 -p 61935:51935 \
@@ -57,3 +60,8 @@ push-017:
 push-018:
 	docker push docker.io/ludx/particl:0.18.1.5
 	docker push docker.io/ludx/particl:0.18
+
+push-019:
+	docker push docker.io/ludx/particl:0.19.0.1rc1
+	docker push docker.io/ludx/particl:0.19
+
